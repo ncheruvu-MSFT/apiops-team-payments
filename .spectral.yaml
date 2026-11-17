@@ -1,16 +1,19 @@
 # Spectral ruleset enforcing Team Payments' naming convention. Real blocking gate in
 # run-publisher.yml (not `|| true`).
+#
+# NOTE: checks servers[0].url rather than individual paths -- the real Azure/apiops extractor
+# nests the API's own path segment into servers[0].url and makes `paths` relative to it.
 extends: []
 rules:
-  team-prefixed-paths:
-    description: 'All paths must be scoped under /team-payments (NAMING-CONVENTIONS.md)'
-    message: "Path '{{property}}' must start with /team-payments -- this repo only owns Team Payments' API surface"
+  team-scoped-server-url:
+    description: 'servers[0].url must be scoped under .../team-payments (NAMING-CONVENTIONS.md)'
+    message: "servers[0].url '{{value}}' must end with /team-payments -- this repo only owns Team Payments' API surface"
     severity: error
-    given: "$.paths[*]~"
+    given: "$.servers[0].url"
     then:
       function: pattern
       functionOptions:
-        match: "^/team-payments"
+        match: "/team-payments$"
 
   operation-id-kebab-case:
     description: 'operationId must be kebab-case: <verb>-<resource>[-<detail>]'
