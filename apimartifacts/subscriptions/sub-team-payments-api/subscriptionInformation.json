@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "sub-team-payments-api",
+    "scope": "/apis/team-payments-api",
+    "allowTracing": true,
+    "state": "active"
+  }
+}

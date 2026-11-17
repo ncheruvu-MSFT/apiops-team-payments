@@ -1,0 +1,33 @@
+# Spectral ruleset enforcing Team Payments' naming convention. Real blocking gate in
+# run-publisher.yml (not `|| true`).
+extends: []
+rules:
+  team-prefixed-paths:
+    description: 'All paths must be scoped under /team-payments (NAMING-CONVENTIONS.md)'
+    message: "Path '{{property}}' must start with /team-payments -- this repo only owns Team Payments' API surface"
+    severity: error
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^/team-payments"
+
+  operation-id-kebab-case:
+    description: 'operationId must be kebab-case: <verb>-<resource>[-<detail>]'
+    message: "operationId '{{value}}' must be kebab-case, e.g. post-refund"
+    severity: error
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+
+  title-must-match-team:
+    description: 'info.title must match the API display name convention'
+    message: "info.title '{{value}}' must start with 'Team Payments'"
+    severity: error
+    given: "$.info.title"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^Team Payments"

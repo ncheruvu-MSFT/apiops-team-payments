@@ -1,0 +1,18 @@
+<!--
+    Team Payments API policy. Managed exclusively by the apiops-team-payments repo.
+    Published by: id-apiops-team-payments managed identity via GitHub Actions OIDC.
+-->
+<policies>
+    <inbound>
+        <base />
+        <set-header name="X-Managed-By" exists-action="override">
+            <value>apiops-team-payments</value>
+        </set-header>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+</policies>

@@ -1,0 +1,50 @@
+# APIOps EXTRACTOR -- Team Payments (manual trigger).
+name: APIOps - Extractor (Team Payments)
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: write
+
+env:
+  APIOPS_RELEASE_VERSION: v7.0.4
+  AZURE_CLIENT_ID: 65b990e2-0c49-44cf-9b8f-c6059790f1db
+  AZURE_TENANT_ID: 62c0cb46-1fcc-4c79-ba1b-d7d9fdfbaa68
+  AZURE_SUBSCRIPTION_ID: 31613fe0-1e9b-4a97-b771-dc48fbaa0fbb
+  AZURE_RESOURCE_GROUP_NAME: apim-infra-simple-apim-2
+  API_MANAGEMENT_SERVICE_NAME: apim-y3ownlt7uuuqu
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC, id-apiops-team-payments)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Run extractor (scoped to configuration.extractor.yaml)
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL "https://github.com/Azure/apiops/releases/download/${APIOPS_RELEASE_VERSION}/extractor-linux-x64.zip" -o extractor.zip
+          mkdir -p extractor && unzip -q extractor.zip -d extractor && chmod +x extractor/extractor
+          export API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH="${GITHUB_WORKSPACE}/apimartifacts"
+          export CONFIGURATION_YAML_PATH="${GITHUB_WORKSPACE}/configuration.extractor.yaml"
+          ./extractor/extractor
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: apiops/extract
+          commit-message: 'APIOps: extract team-payments-api from live APIM'
+          title: 'APIOps (Team Payments) - extract from live APIM'
+          labels: apiops, extract, team-payments

@@ -1,0 +1,3 @@
+# APIOps extractor filter -- Team Payments repo. Scopes extraction to ONLY this team's API.
+apis:
+  - team-payments-api
