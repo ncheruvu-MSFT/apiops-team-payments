@@ -4,29 +4,32 @@ info:
   description: Charge, refund, and payment status. Owned by Team Payments.
   version: '1.0'
 servers:
-  - url: https://apim-y3ownlt7uuuqu.azure-api.net
+  - url: https://apim-y3ownlt7uuuqu.azure-api.net/team-payments
 paths:
-  /team-payments/refund:
+  /refund:
     post:
       summary: Refund a payment
-      description: Issues a refund for a prior charge (published by Team Payments' GitHub Actions pipeline)
       operationId: post-refund
       responses:
         '200':
-          description: OK
-  /team-payments/status:
+          description: ''
+  /status:
     get:
       summary: Get payment status
-      description: Returns the current status of a payment
       operationId: get-payment-status
       responses:
         '200':
-          description: OK
+          description: ''
 components:
   securitySchemes:
     apiKeyHeader:
       type: apiKey
       name: Ocp-Apim-Subscription-Key
       in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
 security:
-  - apiKeyHeader: []
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

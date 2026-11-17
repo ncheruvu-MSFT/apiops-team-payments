@@ -3,7 +3,7 @@
     "displayName": "team-payments-backend-url",
     "secret": false,
     "tags": [
-      "team:payments"
+      "team.payments"
     ],
     "value": "https://payments-backend.internal.contoso.com"
   }

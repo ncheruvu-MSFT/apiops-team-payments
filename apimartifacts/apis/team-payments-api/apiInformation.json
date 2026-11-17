@@ -3,7 +3,6 @@
     "path": "team-payments",
     "apiRevision": "1",
     "authenticationSettings": {},
-    "description": "Team Payments API -- charge, refund, and payment status. Owned by Team Payments.",
     "displayName": "Team Payments API",
     "isCurrent": true,
     "protocols": [
@@ -13,6 +12,6 @@
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"
     },
-    "subscriptionRequired": true
+    "subscriptionRequired": false
   }
 }
