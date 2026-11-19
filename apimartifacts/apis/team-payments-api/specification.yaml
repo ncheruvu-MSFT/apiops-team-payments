@@ -4,7 +4,7 @@ info:
   description: Charge, refund, and payment status. Owned by Team Payments.
   version: '1.0'
 servers:
-  - url: https://apim-y3ownlt7uuuqu.azure-api.net/team-payments
+  - url: https://<APIM_SERVICE_NAME>.azure-api.net/team-payments
 paths:
   /refund:
     post:
