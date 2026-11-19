@@ -1,9 +1,8 @@
 <!--
     Team Payments API policy. Managed exclusively by the apiops-team-payments repo.
     Published by: id-apiops-team-payments managed identity via GitHub Actions OIDC.
-    REAL extracted baseline (not hand-authored) -- fixed servers[]/paths schema to match what the
+    REAL extracted baseline (not hand-authored); fixed servers[]/paths schema to match what the
     real Azure/apiops extractor produces.
-    (Retry: re-trigger publish now that .spectral.yaml matches the real schema.)
 -->
 <policies>
     <inbound>
