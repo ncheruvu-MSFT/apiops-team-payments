@@ -15,11 +15,11 @@ permissions:
 
 env:
   APIOPS_RELEASE_VERSION: v7.0.4
-  AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
-  AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
-  AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-  AZURE_RESOURCE_GROUP_NAME: ${{ vars.AZURE_RESOURCE_GROUP_NAME }}
-  API_MANAGEMENT_SERVICE_NAME: ${{ vars.API_MANAGEMENT_SERVICE_NAME }}
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+  API_MANAGEMENT_SERVICE_NAME: ${{ secrets.API_MANAGEMENT_SERVICE_NAME }}
 
 jobs:
   lint:
@@ -68,12 +68,11 @@ jobs:
           TAG="published/${TIMESTAMP}-${SHORT_SHA}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a "$TAG" -m "Published to ${API_MANAGEMENT_SERVICE_NAME} (run #${GITHUB_RUN_NUMBER})"
+          git tag -a "$TAG" -m "Published to target APIM (run #${GITHUB_RUN_NUMBER})"
           git push origin "$TAG"
           gh release create "$TAG" \
-            --title "Published to ${API_MANAGEMENT_SERVICE_NAME} - ${SHORT_SHA} (run #${GITHUB_RUN_NUMBER})" \
+            --title "Published - ${SHORT_SHA} (run #${GITHUB_RUN_NUMBER})" \
             --notes "**Deployed commit:** ${GITHUB_SHA}
           **Workflow run:** ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
-          **Target APIM:** ${API_MANAGEMENT_SERVICE_NAME} (${AZURE_RESOURCE_GROUP_NAME})
           **apiops release:** ${APIOPS_RELEASE_VERSION}
           **Published at (UTC):** ${TIMESTAMP}"
